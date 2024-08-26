@@ -1,0 +1,543 @@
+
+[
+    {
+        "question": "Quelles sont les actualités du pays Congo?",
+        "answer": "Les actualités du Congo varient, incluant des développements politiques, économiques et sociaux. Il est recommandé de consulter des sources fiables pour les mises à jour les plus récentes."
+    },
+    {
+        "question": "Quelles sont les informations concernant la découverte du Congo?",
+        "answer": "Le Congo a été exploré par des Européens au XIXe siècle, notamment par Pierre Savorgnan de Brazza, qui a fondé Brazzaville en 1880."
+    },
+    {
+        "question": "Quelle est la superficie du Congo?",
+        "answer": "La superficie de la République du Congo est d'environ 342 000 km²."
+    },
+    {
+        "question": "Quelle est l'embouchure du fleuve Congo?",
+        "answer": "L'embouchure du fleuve Congo se situe dans l'océan Atlantique, à la frontière entre la République du Congo et la République Démocratique du Congo."
+    },
+    {
+        "question": "Quels sont les arrondissements au Congo?",
+        "answer": "Brazzaville, la capitale, est divisée en neuf arrondissements, chacun avec des caractéristiques et des défis uniques."
+    },
+    {
+        "question": "Quels sont les districts et départements du Congo?",
+        "answer": "Le Congo est divisé en 12 départements, dont Brazzaville et Pointe-Noire. Chaque département est subdivisé en districts."
+    },
+    {
+        "question": "Qui sont les ministres actuels du Congo?",
+        "answer": "Les ministres du Congo changent régulièrement avec les remaniements gouvernementaux. Pour les noms actuels, il est conseillé de consulter des sources officielles."
+    },
+    {
+        "question": "Quelle est la constitution du gouvernement du Congo?",
+        "answer": "Le gouvernement du Congo est régi par une constitution adoptée en 2015, qui définit l'organisation des pouvoirs exécutif, législatif et judiciaire."
+    },
+    {
+        "question": "Quels sont les noms des philosophes congolais et leurs ouvrages?",
+        "answer": "Un philosophe congolais notable est Théophile Obenga, connu pour ses travaux sur l'histoire africaine et la philosophie."
+    },
+    {
+        "question": "Quels sont les noms des écrivains congolais et leurs ouvrages?",
+        "answer": "Sony Labou Tansi est un écrivain congolais renommé, connu pour ses œuvres comme \"La Vie et demie\"."
+    },
+    {
+        "question": "Quelles sont les informations concernant le sport au Congo?",
+        "answer": "Le sport au Congo est dominé par le football, avec l'équipe nationale, les Diables Rouges, comme figure emblématique. Le pays a également des athlètes dans d'autres disciplines comme l'athlétisme et le basketball."
+    },
+    {
+        "question": "Quelle est la situation des jeunes au Congo?",
+        "answer": "Les jeunes au Congo font face à des défis tels que le chômage, l'accès limité à l'éducation et les opportunités économiques. Toutefois, il y a aussi une jeunesse dynamique engagée dans l'entrepreneuriat et les arts."
+    },
+    {
+        "question": "Quelles sont les motivations des artistes du Congo?",
+        "answer": "Les artistes congolais sont souvent motivés par le désir de promouvoir la culture nationale, de dénoncer les injustices sociales et de partager leur vision du monde à travers diverses formes d'expression artistique."
+    },
+    {
+        "question": "Quelles sont les ressources exploitées au Congo?",
+        "answer": "Les principales ressources exploitées au Congo incluent le pétrole, le bois, le minerai de fer, le cuivre, et le gaz naturel."
+    },
+    {
+        "question": "Quelles sont les matières premières du Congo?",
+        "answer": "Le Congo dispose de nombreuses matières premières comme le pétrole, le bois, le fer, et les diamants."
+	},
+    {
+        "question": "Quels sont les défis de la protection sociale au Congo?",
+        "answer": "La couverture limitée et le manque de financement pour les programmes sociaux."
+    },
+    {
+        "question": "Comment le Congo peut-il attirer davantage d'investissements étrangers?",
+        "answer": "En assurant la stabilité politique et en offrant des incitations fiscales attractives."
+    },
+    {
+        "question": "Quels sont les défis de la protection des enfants au Congo?",
+        "answer": "Le travail des enfants, la malnutrition et l'accès limité à l'éducation."
+    },
+    {
+        "question": "Comment améliorer la compétitivité des PME au Congo?",
+        "answer": "En offrant un meilleur accès au financement et en facilitant l'accès aux marchés."
+    },
+    {
+        "question": "Quels sont les enjeux de la sécurité alimentaire au Congo?",
+        "answer": "La dépendance aux importations et la vulnérabilité aux chocs climatiques."
+    },
+    {
+        "question": "Comment renforcer la participation des jeunes dans la politique au Congo?",
+        "answer": "En promouvant l'éducation civique et en soutenant les initiatives des jeunes."
+    },
+    {
+        "question": "Quels sont les défis de la conservation de la biodiversité au Congo?",
+        "answer": "La destruction des habitats naturels et le braconnage."
+    },
+    {
+        "question": "Comment améliorer la résilience aux catastrophes naturelles au Congo?",
+        "answer": "En développant des plans de gestion des risques et en renforçant les infrastructures."
+    },
+    {
+        "question": "Quel est le rôle des femmes dans le développement économique du Congo?",
+        "answer": "Leur participation est essentielle, mais elles sont souvent sous-représentées dans les secteurs clés."
+    },
+    {
+        "question": "Quels sont les noms et le nombre de présidents qui ont gouverné le Congo?",
+        "answer": "Le Congo a eu plusieurs présidents, dont Fulbert Youlou, Marien Ngouabi, Denis Sassou Nguesso et Pascal Lissouba. Denis Sassou Nguesso a été président à deux reprises."
+    },
+    {
+        "question": "Quelles sont les bibliographies des présidents du Congo?",
+        "answer": "Chaque président a une biographie détaillant son parcours politique, notamment Denis Sassou Nguesso, qui a écrit ses mémoires \"Le manguier, le fleuve et la souris\"."
+    },
+    {
+        "question": "Quelles sont les informations concernant la Dépêche de Brazzaville?",
+        "answer": "La Dépêche de Brazzaville est un journal quotidien fondé en 1998, qui couvre l'actualité nationale et internationale avec un focus particulier sur les événements en République du Congo."
+    },
+    {
+        "question": "Quelles sont les réalités que l'on rencontre au Congo?",
+        "answer": "Les réalités au Congo incluent des défis comme la pauvreté, les infrastructures limitées, mais aussi des richesses culturelles et naturelles significatives."
+    },
+    {
+        "question": "Quels sont les problèmes d'électricité au Congo?",
+        "answer": "Les problèmes d'électricité au Congo incluent des coupures fréquentes, un réseau sous-développé et un accès limité dans les zones rurales."
+    },
+    {
+        "question": "Quels sont les problèmes d'eau au Congo?",
+        "answer": "Les problèmes d'eau au Congo incluent l'accès limité à l'eau potable, les infrastructures de distribution obsolètes et la pollution des sources d'eau."
+    },
+    {
+        "question": "Quelles sont les dernières avancées politiques au Congo-Brazzaville?",
+        "answer": "Les avancées politiques récentes au Congo-Brazzaville incluent des efforts pour améliorer la transparence électorale et des réformes constitutionnelles pour renforcer la démocratie."
+    },
+    {
+        "question": "Quels sont les développements économiques récents au Congo-Brazzaville?",
+        "answer": "Le Congo-Brazzaville se concentre sur la diversification de son économie au-delà du pétrole, avec des investissements dans l'agriculture, les infrastructures et les énergies renouvelables."
+    },
+    {
+        "question": "Quelle est la situation sécuritaire actuelle au Congo-Brazzaville?",
+        "answer": "La situation sécuritaire au Congo-Brazzaville est généralement stable, mais des tensions subsistent dans certaines régions en raison de conflits intercommunautaires et de la criminalité."
+    },
+    {
+        "question": "Quels sont les enjeux de la pandémie de COVID-19 au Congo-Brazzaville?",
+        "answer": "Le Congo-Brazzaville a fait face à des défis pour gérer la pandémie, notamment en ce qui concerne la distribution des vaccins, la sensibilisation et le renforcement du système de santé."
+    },
+    {
+        "question": "Quelles initiatives sont en cours pour lutter contre la corruption au Congo-Brazzaville?",
+        "answer": "Le gouvernement du Congo-Brazzaville a lancé plusieurs initiatives pour lutter contre la corruption, y compris des réformes institutionnelles et des actions judiciaires contre les responsables corrompus."
+    },
+    {
+        "question": "Comment le Congo-Brazzaville gère-t-il les défis climatiques?",
+        "answer": "Le Congo-Brazzaville participe activement aux initiatives internationales pour lutter contre le changement climatique, avec des projets de reforestation et des efforts pour protéger ses écosystèmes."
+    },
+    {
+        "question": "Quelle est la situation des droits de l'homme au Congo-Brazzaville?",
+        "answer": "La situation des droits de l'homme au Congo-Brazzaville reste préoccupante, avec des préoccupations concernant la liberté d'expression, les conditions de détention et les droits des minorités."
+    },
+    {
+        "question": "Quels sont les projets d'infrastructures majeurs au Congo-Brazzaville?",
+        "answer": "Le Congo-Brazzaville investit dans des projets d'infrastructures tels que la modernisation des routes, la construction de barrages hydroélectriques, et l'amélioration des ports."
+    },
+    {
+        "question": "Comment évolue la situation du secteur pétrolier au Congo-Brazzaville?",
+        "answer": "Le secteur pétrolier au Congo-Brazzaville continue d'être un pilier de l'économie, mais le gouvernement cherche à réduire sa dépendance en diversifiant les sources de revenus."
+    },
+    {
+        "question": "Quelles sont les récentes initiatives en matière de santé publique au Congo-Brazzaville?",
+        "answer": "Les récentes initiatives en santé publique incluent des campagnes de vaccination, des programmes pour lutter contre le paludisme, et des efforts pour améliorer l'accès aux soins dans les zones rurales."
+    },
+    {
+        "question": "Quelles sont les relations diplomatiques récentes du Congo-Brazzaville avec ses voisins?",
+        "answer": "Le Congo-Brazzaville entretient des relations diplomatiques stables avec ses voisins, avec des efforts pour renforcer la coopération économique et sécuritaire dans la région."
+    },
+    {
+        "question": "Quelle est la situation du marché du travail au Congo-Brazzaville?",
+        "answer": "Le marché du travail au Congo-Brazzaville fait face à des défis, notamment un taux de chômage élevé, en particulier chez les jeunes, et des efforts sont en cours pour créer davantage d'emplois."
+    },
+    {
+        "question": "Quelle est la situation actuelle du chômage au Congo-Brazzaville?",
+        "answer": "Le chômage au Congo-Brazzaville reste un défi majeur, avec un taux élevé, en particulier chez les jeunes. Les difficultés économiques du pays ont exacerbé ce problème."
+    },
+    {
+        "question": "Quelles initiatives sont en place pour réduire le chômage au Congo-Brazzaville?",
+        "answer": "Le gouvernement du Congo-Brazzaville a lancé plusieurs programmes pour réduire le chômage, notamment des formations professionnelles, des incitations fiscales pour les entreprises qui embauchent localement, et le soutien aux PME."
+    },
+    {
+        "question": "Comment évolue le marché de l'emploi au Congo-Brazzaville?",
+        "answer": "Le marché de l'emploi au Congo-Brazzaville évolue lentement, avec une demande croissante pour des compétences dans les secteurs des technologies de l'information, des énergies renouvelables, et de l'agriculture."
+    },
+    {
+        "question": "Quelles sont les opportunités pour les jeunes entrepreneurs au Congo-Brazzaville?",
+        "answer": "Les opportunités pour les jeunes entrepreneurs au Congo-Brazzaville sont nombreuses, notamment dans les secteurs de l'agro-industrie, du numérique, et du commerce. Toutefois, l'accès au financement reste un défi majeur."
+    },
+    {
+        "question": "Quels sont les principaux obstacles à l'entrepreneuriat au Congo-Brazzaville?",
+        "answer": "Les obstacles à l'entrepreneuriat au Congo-Brazzaville incluent l'accès limité aux financements, la bureaucratie, les coûts élevés de l'énergie, et un environnement commercial parfois difficile."
+    },
+    {
+        "question": "Quels sont les secteurs porteurs pour l'emploi au Congo-Brazzaville?",
+        "answer": "Les secteurs porteurs pour l'emploi au Congo-Brazzaville incluent l'agriculture, le BTP (bâtiment et travaux publics), le pétrole, les services, et les technologies de l'information."
+    },
+    {
+        "question": "Quelles initiatives soutiennent l'entrepreneuriat féminin au Congo-Brazzaville?",
+        "answer": "Des initiatives pour soutenir l'entrepreneuriat féminin au Congo-Brazzaville incluent des programmes de microcrédit, des formations en gestion d'entreprise, et des réseaux de femmes entrepreneurs."
+    },
+    {
+        "question": "Comment le gouvernement encourage-t-il la création d'emplois au Congo-Brazzaville?",
+        "answer": "Le gouvernement encourage la création d'emplois à travers des politiques de soutien aux PME, des réformes pour améliorer le climat des affaires, et des partenariats avec le secteur privé pour stimuler les investissements."
+    },
+    {
+        "question": "Quels sont les programmes de formation professionnelle au Congo-Brazzaville?",
+        "answer": "Le Congo-Brazzaville propose des programmes de formation professionnelle dans des domaines comme l'agriculture, la mécanique, l'informatique, et la gestion, pour améliorer l'employabilité des jeunes."
+    },
+    {
+        "question": "Quel est l'impact de l'entrepreneuriat sur l'économie du Congo-Brazzaville?",
+        "answer": "L'entrepreneuriat joue un rôle crucial dans la diversification de l'économie du Congo-Brazzaville, en créant des emplois et en stimulant l'innovation dans des secteurs clés."
+    },
+    {
+        "question": "Quelles sont les principales villes du Congo-Brazzaville?",
+        "answer": "Les principales villes du Congo-Brazzaville incluent Brazzaville, Pointe-Noire, Dolisie, Nkayi, et Ouesso."
+    },
+    {
+        "question": "Quelle est la capitale du Congo-Brazzaville?",
+        "answer": "La capitale du Congo-Brazzaville est Brazzaville, située sur les rives du fleuve Congo, en face de Kinshasa."
+    },
+    {
+        "question": "Quelle est la ville économique principale du Congo-Brazzaville?",
+        "answer": "Pointe-Noire est la principale ville économique du Congo-Brazzaville, connue pour son port et son industrie pétrolière."
+    },
+    {
+        "question": "Quelles sont les caractéristiques de la ville de Dolisie?",
+        "answer": "Dolisie, aussi appelée Loubomo, est la troisième plus grande ville du Congo-Brazzaville. Elle est un important carrefour ferroviaire et commercial."
+    },
+    {
+        "question": "Quelles sont les caractéristiques de la ville de Nkayi?",
+        "answer": "Nkayi est une ville industrielle, principalement connue pour sa production de sucre. Elle est située dans le département de la Bouenza."
+    },
+    {
+        "question": "Quelle est la ville la plus septentrionale du Congo-Brazzaville?",
+        "answer": "La ville la plus septentrionale du Congo-Brazzaville est Ouesso, située dans le département de la Sangha, proche de la frontière avec le Cameroun et la République Centrafricaine."
+    },
+    {
+        "question": "Quelles sont les villes portuaires du Congo-Brazzaville?",
+        "answer": "Les villes portuaires du Congo-Brazzaville incluent Pointe-Noire, le plus grand port du pays, et Brazzaville, qui dispose également d'un port fluvial important."
+    },
+    {
+        "question": "Quelle est l'importance de la ville de Madingou?",
+        "answer": "Madingou est la capitale du département de la Bouenza. Elle joue un rôle clé dans l'agriculture et le commerce régional."
+    },
+    {
+        "question": "Quels sont les attraits touristiques de la ville de Brazzaville?",
+        "answer": "Brazzaville, la capitale, est connue pour ses monuments historiques, tels que le Palais du Peuple, la Basilique Sainte-Anne, et ses vues sur le fleuve Congo."
+    },
+    {
+        "question": "Quelles sont les villes importantes dans le sud du Congo-Brazzaville?",
+        "answer": "Les villes importantes dans le sud du Congo-Brazzaville incluent Pointe-Noire, Dolisie, et Mossendjo, chacune ayant des rôles économiques spécifiques dans la région."
+    },
+    {
+        "question": "Quelles sont les principales tribus au Congo-Brazzaville?",
+        "answer": "Les principales tribus au Congo-Brazzaville incluent les Kongo, les Téké, les Mbochi, les Sangha, et les Vili."
+    },
+    {
+        "question": "Quelle est la répartition géographique des tribus au Congo-Brazzaville?",
+        "answer": "Les Kongo sont principalement dans le sud, les Téké au centre, les Mbochi dans le nord, et les Vili le long de la côte, notamment autour de Pointe-Noire."
+    },
+    {
+        "question": "Quelle est l'importance culturelle des tribus au Congo-Brazzaville?",
+        "answer": "Les tribus du Congo-Brazzaville jouent un rôle central dans la culture, avec des traditions, des langues, et des coutumes qui influencent la vie sociale, les rites et les cérémonies."
+    },
+    {
+        "question": "Quelles sont les langues parlées par les tribus au Congo-Brazzaville?",
+        "answer": "Les principales langues tribales incluent le kikongo, le lingala, le téké, et le mboshi, en plus du français qui est la langue officielle."
+    },
+    {
+        "question": "Quels sont les rôles des chefs tribaux au Congo-Brazzaville?",
+        "answer": "Les chefs tribaux au Congo-Brazzaville jouent un rôle important dans la médiation des conflits, la préservation des traditions, et le maintien de la cohésion sociale au sein des communautés."
+    },
+    {
+        "question": "Comment les tribus influencent-elles la politique au Congo-Brazzaville?",
+        "answer": "Les tribus ont une influence significative sur la politique, les alliances tribales étant souvent un facteur dans les élections et les relations de pouvoir."
+    },
+    {
+        "question": "Quelle est la relation entre les tribus et la modernité au Congo-Brazzaville?",
+        "answer": "Les tribus au Congo-Brazzaville naviguent entre la préservation des traditions ancestrales et l'adaptation à la modernité, en intégrant des aspects modernes dans leurs modes de vie."
+    },
+    {
+        "question": "Quelle est la constitution actuelle du Congo-Brazzaville?",
+        "answer": "La constitution actuelle du Congo-Brazzaville a été adoptée en 2015, établissant un système présidentiel avec une séparation des pouvoirs."
+    },
+    {
+        "question": "Quels sont les droits fondamentaux garantis par la constitution du Congo-Brazzaville?",
+        "answer": "La constitution garantit les droits fondamentaux tels que la liberté d'expression, le droit à un procès équitable, et la protection contre les discriminations."
+    },
+    {
+        "question": "Quels sont les organes principaux du gouvernement selon la constitution du Congo-Brazzaville?",
+        "answer": "Les organes principaux du gouvernement comprennent le Président de la République, le Parlement bicaméral (Assemblée nationale et Sénat), et le pouvoir judiciaire."
+    },
+    {
+        "question": "Quelle est la loi sur la décentralisation au Congo-Brazzaville?",
+        "answer": "La loi sur la décentralisation vise à donner plus d'autonomie aux collectivités locales pour améliorer la gouvernance locale et le développement régional."
+    },
+    {
+        "question": "Comment les lois sont-elles adoptées au Congo-Brazzaville?",
+        "answer": "Les lois au Congo-Brazzaville sont adoptées par le Parlement, qui examine, modifie et vote les projets de loi soumis par le gouvernement ou les députés."
+    },
+    {
+        "question": "Quelles sont les principales lois en matière de droits de l'homme au Congo-Brazzaville?",
+        "answer": "Les lois principales en matière de droits de l'homme incluent la protection contre la torture, la liberté de réunion et d'association, et la protection des minorités."
+    },
+    {
+        "question": "Quels sont les codes juridiques principaux au Congo-Brazzaville?",
+        "answer": "Les principaux codes juridiques comprennent le Code pénal, le Code civil, le Code du travail, et le Code de la famille."
+    },
+    {
+        "question": "Quelles sont les sanctions pour la corruption au Congo-Brazzaville?",
+        "answer": "La corruption est sévèrement punie au Congo-Brazzaville, avec des peines de prison et des amendes pour les personnes reconnues coupables, ainsi que des mesures de destitution pour les fonctionnaires."
+    },
+    {
+        "question": "Quels sont les droits des femmes selon les lois du Congo-Brazzaville?",
+        "answer": "Les lois du Congo-Brazzaville garantissent les droits des femmes, notamment en matière d'égalité devant la loi, de protection contre la violence domestique, et de participation politique."
+    },
+    {
+        "question": "Quelle est la loi sur l'environnement au Congo-Brazzaville?",
+        "answer": "La loi sur l'environnement au Congo-Brazzaville vise à protéger les ressources naturelles, à réguler l'exploitation des ressources, et à promouvoir le développement durable."
+    },
+    {
+        "question": "Quel est le premier ministre du Congo Brazzaville?",
+        "answer": "Anatole Collinet Makosso"
+    },
+    {
+        "question": "Quel est le ministre de l'industrie culturelle, touristique, artistique et des loisirs?",
+        "answer": "Lydie Pongault"
+    },
+    {
+        "question": "Quel est le ministre des Postes, des Télécommunications et de l'Économie numérique?",
+        "answer": "Léon Juste Ibombo"
+    },
+    {
+        "question": "Quel est le ministre des Hydrocarbures?",
+        "answer": "Bruno Jean Richard Itoua"
+    },
+    {
+        "question": "Quel est le ministre de la Jeunesse?",
+        "answer": "Hugues Ngouélondélé"
+    },
+    {
+        "question": "Vrai ou faux ? Le Premier ministre congolais est l’élu député de la circonscription de Loango.",
+        "answer": "Faux. Il est plutôt l’élu député de la première circonscription de Loandjili à Pointe-Noire."
+    },
+    {
+        "question": "Comment appelle-t-on le chef du gouvernement congolais?",
+        "answer": "Premier ministre"
+    },
+    {
+        "question": "Combien de députés compte notre Assemblée Nationale?",
+        "answer": "151"
+    },
+    {
+        "question": "Combien de sénateurs compte notre pays?",
+        "answer": "72"
+    },
+    {
+        "question": "Quel est le parti politique qui a gagné les dernières élections législatives et présidentielles?",
+        "answer": "Le Parti Congolais du Travail (PCT)"
+    },
+    {
+        "question": "Qui nomme les ministres du gouvernement de la République du Congo?",
+        "answer": "Le Premier ministre, chef du gouvernement."
+    },
+    {
+        "question": "Comment se nomme le directeur général de la Jeunesse de notre pays?",
+        "answer": "Jycert Rochar Loukanou"
+    },
+    {
+        "question": "Comment se nomme le premier secrétaire du Conseil Consultatif de la Jeunesse?",
+        "answer": "Prince Michrist Kaba Boko"
+    },
+    {
+        "question": "En quelle date de chaque année est célébrée la Journée Nationale de la Jeunesse dans notre pays?",
+        "answer": "Le 28 février"
+    },
+    {
+        "question": "Par quel texte juridique est instituée la Journée Nationale de la Jeunesse dans notre pays?",
+        "answer": "Par le décret n°2018-324 du 17 août 2018"
+    },
+    {
+        "question": "Donne l’intégralité de l’appellation du ministère en charge de la jeunesse de notre pays.",
+        "answer": "Ministère de la jeunesse et des sports, de l’éducation civique, de la formation qualifiante et de l’emploi."
+    },
+    {
+        "question": "Quel est le nom et la nationalité du président en exercice de l’Union africaine?",
+        "answer": "Le Mauritanien Mohamed Ould Cheikh Ghazouani"
+    },
+    {
+        "question": "Quel est le pays le plus peuplé en Afrique?",
+        "answer": "Le Nigéria"
+    },
+    {
+        "question": "Quel est le fleuve le plus long d’Afrique?",
+        "answer": "Le Nil"
+    },
+    {
+        "question": "Quel est le sommet le plus élevé d’Afrique?",
+        "answer": "Le Mont Kilimandjaro avec 5895 mètres"
+    },
+    {
+        "question": "En quelle année Nelson Mandela a-t-il reçu le prix Nobel de la paix?",
+        "answer": "En 1993"
+    },
+    {
+        "question": "Quel est le premier pays producteur de coton en Afrique?",
+        "answer": "Le Bénin"
+    },
+    {
+        "question": "Quelle enclave sépare le Congo de l’Angola?",
+        "answer": "Le Cabinda"
+    },
+    {
+        "question": "Quel est le plus petit département du Congo?",
+        "answer": "La Lékoumou"
+    },
+    {
+        "question": "Quelle est la ressource incontournable de l’économie congolaise?",
+        "answer": "Le pétrole"
+    },
+    {
+        "question": "Quelles sont les dates de création de la ville de Brazzaville?",
+        "answer": "Le 3 octobre 1880"
+	},
+    {
+        "question": "Quelle est la date de l’indépendance de la République du Congo?",
+        "answer": "Le 15 août 1960"
+    },
+    {
+        "question": "Citez 4 départements de la République du Congo.",
+        "answer": "Brazzaville, Pointe-Noire, le Kouilou, le Niari"
+    },
+    {
+        "question": "Pourquoi dit-on que le Congo est un pays de transit?",
+        "answer": "Parce que 90% de l’échange passe par voie maritime (via le port autonome de Pointe-Noire)."
+    },
+    {
+        "question": "Longue de 4,6 km, reliant la Case de Gaulle vers le rond-point Fulbert Youlou, quelle est la date de l’inauguration de la Corniche de Brazzaville?",
+        "answer": "Commencé en mai 2008 et achevé en mars 2016"
+    },
+    {
+        "question": "Dans quelle sous-région d’Afrique appartient le Congo?",
+        "answer": "Afrique centrale"
+    },
+    {
+        "question": "Quel est le club de ligue 1 vainqueur du championnat congolais, saison 2023-2024?",
+        "answer": "L’Athlétique Club Léopards de Dolisie"
+    },
+    {
+        "question": "En quelle année la République du Congo a-t-elle remporté sa première coupe d’Afrique des nations de football?",
+        "answer": "En 1972"
+    },
+    {
+        "question": "Quel pays a remporté la coupe du monde en 2018?",
+        "answer": "La France"
+    },
+    {
+        "question": "Quel pays a le plus de médailles d’or olympiques en natation?",
+        "answer": "Les États-Unis"
+    },
+    {
+        "question": "Quel stade est principalement utilisé pour les matchs de l’équipe nationale de football du Congo Brazzaville?",
+        "answer": "Stade Alphonse Massamba-Débat"
+    },
+    {
+        "question": "Quel est le plus grand complexe sportif de la République du Congo?",
+        "answer": "Complexe sportif de la Concorde de Kintélé"
+    },
+    {
+        "question": "Quel est le club de basketball le plus titré de la République du Congo?",
+        "answer": "Inter Club de Brazzaville"
+    },
+    {
+        "question": "Quel joueur congolais a eu une carrière notable dans la NBA (ligue américaine de basketball)?",
+        "answer": "Serge Ibaka"
+    },
+    {
+        "question": "Quels sont les sports traditionnels pratiqués au Congo Brazzaville?",
+        "answer": "Zango"
+    },
+    {
+        "question": "Citez deux termes synonymes au mot délinquance.",
+        "answer": "Criminalité, banditisme"
+    },
+    {
+        "question": "Qu’est-ce que la délinquance?",
+        "answer": "La délinquance, c’est l’ensemble des comportements qui contreviennent au droit pénal et exposent ainsi leurs auteurs à une peine."
+    },
+    {
+        "question": "Quels sont les solutions pour lutter contre la délinquance en milieu scolaire?",
+        "answer": "Réduire le nombre de débits de boissons, des salles de jeux, lutter contre l’impunité."
+    },
+    {
+        "question": "Quelle est la langue officielle de la République du Congo?",
+        "answer": "Le français"
+    },
+    {
+        "question": "Quelles sont les langues nationales les plus parlées en République du Congo?",
+        "answer": "Lingala et Kituba"
+    },
+    {
+        "question": "Quel rôle jouent les griots dans les sociétés africaines?",
+        "answer": "Ce sont les historiens, conteurs et musiciens gardiens des traditions orales."
+    },
+    {
+        "question": "Quelle est la signification des tatouages rituels chez les Mbochis?",
+        "answer": "Les tatouages rituels chez les Mbochis sont des symboles de statut social et des rites de passage."
+    },
+    {
+        "question": "Quel est le plat traditionnel congolais le plus connu?",
+        "answer": "Saka-Saka, préparé à partir de feuilles de manioc."
+    },
+    {
+        "question": "Comment les Congolais célèbrent-ils la fête de l’indépendance?",
+        "answer": "Les Congolais célèbrent avec des défilés, des concerts, des danses et des discours officiels."
+		},
+    {
+        "question": "Quels matériaux sont souvent utilisés dans l’artisanat congolais?",
+        "answer": "Le bois, l’ivoire, le cuivre et les perles."
+    },
+    {
+        "question": "Quelle est la capitale du Congo Brazzaville?",
+        "answer": "Brazzaville"
+    },
+    {
+        "question": "Quel est le nom de l'université publique la plus ancienne du Congo Brazzaville?",
+        "answer": "Université Marien Ngouabi"
+    },
+    {
+        "question": "En quelle année a été créée l'Université Marien Ngouabi?",
+        "answer": "1971"
+    },
+    {
+        "question": "Quel est le diplôme universitaire de premier cycle le plus couramment délivré au Congo Brazzaville?",
+        "answer": "Licence"
+    },
+    {
+        "question": "Quel est le nom du ministre de l'Enseignement Supérieur et de la Recherche Scientifique du Congo Brazzaville (2024)?",
+        "answer": "EDITH DELPHINE EMMANUEL"
+    },
+    {
+        "question": "Combien d'années d'études sont généralement nécessaires pour obtenir une licence au Congo Brazzaville?",
+        "answer": "Trois ans"
+    }
+]
