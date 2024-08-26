@@ -1,7 +1,7 @@
 {
     "language": "fr",
     "region": "Congo",
-    "api_key": "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",
+    "api_key": "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",
     "model_size": "gpt-3.5-turbo",
     "max_tokens": 1500,
     "temperature": 0.7,
