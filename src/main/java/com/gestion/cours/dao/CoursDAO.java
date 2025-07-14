@@ -1,8 +1,12 @@
 package com.gestion.cours.dao;
 
 import com.gestion.cours.model.Cours;
-import com.gestion.cours.model.Professeur;
+import com.gestion.cours.model.Cours.Niveau;
+import com.gestion.cours.model.User;
 import com.gestion.cours.model.Categorie;
+import com.gestion.cours.util.DatabaseConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,351 +15,396 @@ import java.util.List;
 /**
  * DAO pour la gestion des cours
  */
-public class CoursDAO extends BaseDAO<Cours> {
-    
-    private static final String TABLE_NAME = "cours";
-    
-    private static final String SQL_FIND_BY_ID = 
-        "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.specialite as prof_specialite, " +
-        "cat.nom as cat_nom, cat.description as cat_description " +
-        "FROM " + TABLE_NAME + " c " +
-        "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
-        "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
-        "WHERE c.id = ?";
-    
-    private static final String SQL_FIND_ALL = 
-        "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.specialite as prof_specialite, " +
-        "cat.nom as cat_nom, cat.description as cat_description " +
-        "FROM " + TABLE_NAME + " c " +
-        "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
-        "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
-        "ORDER BY c.titre";
-    
-    private static final String SQL_FIND_ACTIVE = 
-        "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.specialite as prof_specialite, " +
-        "cat.nom as cat_nom, cat.description as cat_description " +
-        "FROM " + TABLE_NAME + " c " +
-        "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
-        "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
-        "WHERE c.actif = true ORDER BY c.titre";
-    
-    private static final String SQL_INSERT = 
-        "INSERT INTO " + TABLE_NAME + " (titre, description, duree_heures, prix, niveau, capacite_max, " +
-        "professeur_id, categorie_id, date_debut, date_fin, horaire_debut, horaire_fin, jours_semaine, salle, actif) " +
-        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-    private static final String SQL_UPDATE = 
-        "UPDATE " + TABLE_NAME + " SET titre = ?, description = ?, duree_heures = ?, prix = ?, niveau = ?, " +
-        "capacite_max = ?, professeur_id = ?, categorie_id = ?, date_debut = ?, date_fin = ?, " +
-        "horaire_debut = ?, horaire_fin = ?, jours_semaine = ?, salle = ?, actif = ?, " +
-        "date_modification = CURRENT_TIMESTAMP WHERE id = ?";
-    
-    private static final String SQL_DELETE = 
-        "UPDATE " + TABLE_NAME + " SET actif = false, date_modification = CURRENT_TIMESTAMP WHERE id = ?";
-    
-    private static final String SQL_FIND_BY_PROFESSEUR = 
-        "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.specialite as prof_specialite, " +
-        "cat.nom as cat_nom, cat.description as cat_description " +
-        "FROM " + TABLE_NAME + " c " +
-        "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
-        "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
-        "WHERE c.professeur_id = ? AND c.actif = true ORDER BY c.date_debut";
-    
-    @Override
-    public Cours findById(Integer id) {
-        if (id == null) return null;
-        
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(SQL_FIND_BY_ID);
-            stmt.setInt(1, id);
-            rs = stmt.executeQuery();
-            
-            if (rs.next()) {
-                return mapResultSetToEntity(rs);
-            }
-        } catch (SQLException e) {
-            logger.error("Erreur lors de la recherche du cours par ID: {}", id, e);
-        } finally {
-            closeResources(conn, stmt, rs);
-        }
-        
-        return null;
-    }
-    
-    @Override
-    public List<Cours> findAll() {
-        List<Cours> cours = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(SQL_FIND_ALL);
-            rs = stmt.executeQuery();
-            
-            while (rs.next()) {
-                cours.add(mapResultSetToEntity(rs));
-            }
-        } catch (SQLException e) {
-            logger.error("Erreur lors de la recherche de tous les cours", e);
-        } finally {
-            closeResources(conn, stmt, rs);
-        }
-        
-        return cours;
-    }
-    
+public class CoursDAO extends BaseDAO {
+    private static final Logger logger = LoggerFactory.getLogger(CoursDAO.class);
+
     /**
-     * Trouve tous les cours actifs
+     * Créer un nouveau cours
      */
-    public List<Cours> findAllActive() {
-        List<Cours> cours = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(SQL_FIND_ACTIVE);
-            rs = stmt.executeQuery();
-            
-            while (rs.next()) {
-                cours.add(mapResultSetToEntity(rs));
-            }
-        } catch (SQLException e) {
-            logger.error("Erreur lors de la recherche des cours actifs", e);
-        } finally {
-            closeResources(conn, stmt, rs);
-        }
-        
-        return cours;
-    }
-    
-    /**
-     * Trouve les cours d'un professeur
-     */
-    public List<Cours> findByProfesseur(Integer professeurId) {
-        if (professeurId == null) return new ArrayList<>();
-        
-        List<Cours> cours = new ArrayList<>();
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(SQL_FIND_BY_PROFESSEUR);
-            stmt.setInt(1, professeurId);
-            rs = stmt.executeQuery();
-            
-            while (rs.next()) {
-                cours.add(mapResultSetToEntity(rs));
-            }
-        } catch (SQLException e) {
-            logger.error("Erreur lors de la recherche des cours du professeur ID: {}", professeurId, e);
-        } finally {
-            closeResources(conn, stmt, rs);
-        }
-        
-        return cours;
-    }
-    
-    @Override
-    public Cours save(Cours cours) {
-        if (cours == null || !cours.isValide()) {
-            logger.warn("Tentative de sauvegarde d'un cours invalide");
-            return null;
-        }
-        
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        
-        try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
-            
+    public Cours creer(Cours cours) {
+        String sql = "INSERT INTO cours (titre, presentation, mots_cles, public_vise, prerequis, niveau, " +
+                     "duree_heures, prix, professeur_id, categorie_id, visible, image_couverture, date_publication) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
             stmt.setString(1, cours.getTitre());
-            stmt.setString(2, cours.getDescription());
-            stmt.setInt(3, cours.getDureeHeures());
-            stmt.setBigDecimal(4, cours.getPrix());
-            stmt.setString(5, cours.getNiveau());
-            stmt.setInt(6, cours.getCapaciteMax());
-            stmt.setObject(7, cours.getProfesseurId());
-            stmt.setObject(8, cours.getCategorieId());
-            stmt.setDate(9, cours.getDateDebut() != null ? Date.valueOf(cours.getDateDebut()) : null);
-            stmt.setDate(10, cours.getDateFin() != null ? Date.valueOf(cours.getDateFin()) : null);
-            stmt.setTime(11, cours.getHoraireDebut() != null ? Time.valueOf(cours.getHoraireDebut()) : null);
-            stmt.setTime(12, cours.getHoraireFin() != null ? Time.valueOf(cours.getHoraireFin()) : null);
-            stmt.setString(13, cours.getJoursSemaine());
-            stmt.setString(14, cours.getSalle());
-            stmt.setBoolean(15, cours.isActif());
-            
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Échec de la création du cours");
-            }
-            
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+            stmt.setString(2, cours.getPresentation());
+            stmt.setString(3, cours.getMotsCles());
+            stmt.setString(4, cours.getPublicVise());
+            stmt.setString(5, cours.getPrerequis());
+            stmt.setString(6, cours.getNiveau().name());
+            stmt.setObject(7, cours.getDureeHeures());
+            stmt.setBigDecimal(8, cours.getPrix());
+            stmt.setInt(9, cours.getProfesseurId());
+            stmt.setObject(10, cours.getCategorieId());
+            stmt.setBoolean(11, cours.isVisible());
+            stmt.setString(12, cours.getImageCouverture());
+            stmt.setDate(13, cours.getDatePublication() != null ? Date.valueOf(cours.getDatePublication()) : null);
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     cours.setId(generatedKeys.getInt(1));
-                    logger.info("Cours créé avec l'ID: {}", cours.getId());
+                    logger.info("Cours créé avec succès: {}", cours.getTitre());
                     return cours;
                 }
             }
+
         } catch (SQLException e) {
-            logger.error("Erreur lors de la sauvegarde du cours", e);
-        } finally {
-            closeResources(conn, stmt);
+            logger.error("Erreur lors de la création du cours: {}", cours.getTitre(), e);
         }
-        
         return null;
     }
-    
-    @Override
-    public Cours update(Cours cours) {
-        if (cours == null || cours.getId() == null || !cours.isValide()) {
-            logger.warn("Tentative de mise à jour d'un cours invalide");
-            return null;
-        }
-        
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        
-        try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(SQL_UPDATE);
-            
-            stmt.setString(1, cours.getTitre());
-            stmt.setString(2, cours.getDescription());
-            stmt.setInt(3, cours.getDureeHeures());
-            stmt.setBigDecimal(4, cours.getPrix());
-            stmt.setString(5, cours.getNiveau());
-            stmt.setInt(6, cours.getCapaciteMax());
-            stmt.setObject(7, cours.getProfesseurId());
-            stmt.setObject(8, cours.getCategorieId());
-            stmt.setDate(9, cours.getDateDebut() != null ? Date.valueOf(cours.getDateDebut()) : null);
-            stmt.setDate(10, cours.getDateFin() != null ? Date.valueOf(cours.getDateFin()) : null);
-            stmt.setTime(11, cours.getHoraireDebut() != null ? Time.valueOf(cours.getHoraireDebut()) : null);
-            stmt.setTime(12, cours.getHoraireFin() != null ? Time.valueOf(cours.getHoraireFin()) : null);
-            stmt.setString(13, cours.getJoursSemaine());
-            stmt.setString(14, cours.getSalle());
-            stmt.setBoolean(15, cours.isActif());
-            stmt.setInt(16, cours.getId());
-            
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
-                logger.info("Cours mis à jour: ID {}", cours.getId());
-                return cours;
-            }
-        } catch (SQLException e) {
-            logger.error("Erreur lors de la mise à jour du cours", e);
-        } finally {
-            closeResources(conn, stmt);
-        }
-        
-        return null;
-    }
-    
-    @Override
-    public boolean delete(Integer id) {
-        if (id == null) return false;
-        
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        
-        try {
-            conn = getConnection();
-            stmt = conn.prepareStatement(SQL_DELETE);
+
+    /**
+     * Trouver un cours par ID
+     */
+    public Cours trouverParId(Integer id) {
+        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+                     "cat.nom as cat_nom, cat.description as cat_description " +
+                     "FROM cours c " +
+                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
+                     "WHERE c.id = ? AND c.actif = TRUE";
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setInt(1, id);
-            
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
-                logger.info("Cours désactivé: ID {}", id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return mapResultSetToCours(rs);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Erreur lors de la recherche du cours par ID: {}", id, e);
+        }
+        return null;
+    }
+
+    /**
+     * Lister tous les cours
+     */
+    public List<Cours> listerTous() {
+        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+                     "cat.nom as cat_nom, cat.description as cat_description " +
+                     "FROM cours c " +
+                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
+                     "WHERE c.actif = TRUE ORDER BY c.date_creation DESC";
+
+        return executeQuery(sql);
+    }
+
+    /**
+     * Lister les cours visibles (publiés)
+     */
+    public List<Cours> listerCoursVisibles() {
+        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+                     "cat.nom as cat_nom, cat.description as cat_description " +
+                     "FROM cours c " +
+                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
+                     "WHERE c.actif = TRUE AND c.visible = TRUE " +
+                     "AND (c.date_publication IS NULL OR c.date_publication <= CURRENT_DATE) " +
+                     "ORDER BY c.date_creation DESC";
+
+        return executeQuery(sql);
+    }
+
+    /**
+     * Lister les cours par professeur
+     */
+    public List<Cours> listerParProfesseur(Integer professeurId) {
+        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+                     "cat.nom as cat_nom, cat.description as cat_description " +
+                     "FROM cours c " +
+                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
+                     "WHERE c.professeur_id = ? AND c.actif = TRUE " +
+                     "ORDER BY c.date_creation DESC";
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, professeurId);
+            return executeQueryWithStatement(stmt);
+
+        } catch (SQLException e) {
+            logger.error("Erreur lors de la recherche des cours par professeur: {}", professeurId, e);
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * Lister les cours par catégorie
+     */
+    public List<Cours> listerParCategorie(Integer categorieId) {
+        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+                     "cat.nom as cat_nom, cat.description as cat_description " +
+                     "FROM cours c " +
+                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
+                     "WHERE c.categorie_id = ? AND c.actif = TRUE AND c.visible = TRUE " +
+                     "ORDER BY c.date_creation DESC";
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, categorieId);
+            return executeQueryWithStatement(stmt);
+
+        } catch (SQLException e) {
+            logger.error("Erreur lors de la recherche des cours par catégorie: {}", categorieId, e);
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * Rechercher des cours par critères
+     */
+    public List<Cours> rechercher(String motsCles, Niveau niveau, Integer categorieId, boolean gratuitSeulement) {
+        StringBuilder sql = new StringBuilder(
+            "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+            "cat.nom as cat_nom, cat.description as cat_description " +
+            "FROM cours c " +
+            "LEFT JOIN users u ON c.professeur_id = u.id " +
+            "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
+            "WHERE c.actif = TRUE AND c.visible = TRUE "
+        );
+
+        List<Object> params = new ArrayList<>();
+
+        if (motsCles != null && !motsCles.trim().isEmpty()) {
+            sql.append("AND (c.titre LIKE ? OR c.presentation LIKE ? OR c.mots_cles LIKE ?) ");
+            String searchPattern = "%" + motsCles.trim() + "%";
+            params.add(searchPattern);
+            params.add(searchPattern);
+            params.add(searchPattern);
+        }
+
+        if (niveau != null) {
+            sql.append("AND c.niveau = ? ");
+            params.add(niveau.name());
+        }
+
+        if (categorieId != null) {
+            sql.append("AND c.categorie_id = ? ");
+            params.add(categorieId);
+        }
+
+        if (gratuitSeulement) {
+            sql.append("AND (c.prix IS NULL OR c.prix = 0) ");
+        }
+
+        sql.append("ORDER BY c.date_creation DESC");
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < params.size(); i++) {
+                stmt.setObject(i + 1, params.get(i));
+            }
+
+            return executeQueryWithStatement(stmt);
+
+        } catch (SQLException e) {
+            logger.error("Erreur lors de la recherche de cours", e);
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * Mettre à jour un cours
+     */
+    public boolean mettreAJour(Cours cours) {
+        String sql = "UPDATE cours SET titre = ?, presentation = ?, mots_cles = ?, public_vise = ?, " +
+                     "prerequis = ?, niveau = ?, duree_heures = ?, prix = ?, categorie_id = ?, " +
+                     "visible = ?, image_couverture = ?, date_publication = ?, date_modification = CURRENT_TIMESTAMP " +
+                     "WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, cours.getTitre());
+            stmt.setString(2, cours.getPresentation());
+            stmt.setString(3, cours.getMotsCles());
+            stmt.setString(4, cours.getPublicVise());
+            stmt.setString(5, cours.getPrerequis());
+            stmt.setString(6, cours.getNiveau().name());
+            stmt.setObject(7, cours.getDureeHeures());
+            stmt.setBigDecimal(8, cours.getPrix());
+            stmt.setObject(9, cours.getCategorieId());
+            stmt.setBoolean(10, cours.isVisible());
+            stmt.setString(11, cours.getImageCouverture());
+            stmt.setDate(12, cours.getDatePublication() != null ? Date.valueOf(cours.getDatePublication()) : null);
+            stmt.setInt(13, cours.getId());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                logger.info("Cours mis à jour avec succès: {}", cours.getTitre());
                 return true;
             }
+
         } catch (SQLException e) {
-            logger.error("Erreur lors de la suppression du cours ID: {}", id, e);
-        } finally {
-            closeResources(conn, stmt);
+            logger.error("Erreur lors de la mise à jour du cours: {}", cours.getId(), e);
         }
-        
         return false;
     }
-    
-    @Override
-    protected Cours mapResultSetToEntity(ResultSet rs) throws SQLException {
+
+    /**
+     * Changer la visibilité d'un cours
+     */
+    public boolean changerVisibilite(Integer coursId, boolean visible) {
+        String sql = "UPDATE cours SET visible = ?, date_modification = CURRENT_TIMESTAMP WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setBoolean(1, visible);
+            stmt.setInt(2, coursId);
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                logger.info("Visibilité du cours {} changée à: {}", coursId, visible);
+                return true;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Erreur lors du changement de visibilité du cours: {}", coursId, e);
+        }
+        return false;
+    }
+
+    /**
+     * Supprimer un cours (suppression logique)
+     */
+    public boolean supprimer(Integer coursId) {
+        String sql = "UPDATE cours SET actif = FALSE, date_modification = CURRENT_TIMESTAMP WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, coursId);
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                logger.info("Cours supprimé (logiquement): {}", coursId);
+                return true;
+            }
+
+        } catch (SQLException e) {
+            logger.error("Erreur lors de la suppression du cours: {}", coursId, e);
+        }
+        return false;
+    }
+
+    /**
+     * Compter le nombre d'étudiants inscrits à un cours
+     */
+    public int compterEtudiantsInscrits(Integer coursId) {
+        String sql = "SELECT COUNT(*) FROM inscriptions WHERE cours_id = ? AND statut = 'ACCEPTEE'";
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, coursId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            logger.error("Erreur lors du comptage des étudiants inscrits: {}", coursId, e);
+        }
+        return 0;
+    }
+
+    /**
+     * Exécuter une requête sans paramètres
+     */
+    private List<Cours> executeQuery(String sql) {
+        List<Cours> cours = new ArrayList<>();
+
+        try (Connection conn = DatabaseConfig.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            return executeQueryWithStatement(stmt);
+
+        } catch (SQLException e) {
+            logger.error("Erreur lors de l'exécution de la requête", e);
+        }
+        return cours;
+    }
+
+    /**
+     * Exécuter une requête avec un PreparedStatement
+     */
+    private List<Cours> executeQueryWithStatement(PreparedStatement stmt) throws SQLException {
+        List<Cours> cours = new ArrayList<>();
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            cours.add(mapResultSetToCours(rs));
+        }
+
+        return cours;
+    }
+
+    /**
+     * Mapper un ResultSet vers un objet Cours
+     */
+    private Cours mapResultSetToCours(ResultSet rs) throws SQLException {
         Cours cours = new Cours();
-        
         cours.setId(rs.getInt("id"));
         cours.setTitre(rs.getString("titre"));
-        cours.setDescription(rs.getString("description"));
-        cours.setDureeHeures(rs.getInt("duree_heures"));
+        cours.setPresentation(rs.getString("presentation"));
+        cours.setMotsCles(rs.getString("mots_cles"));
+        cours.setPublicVise(rs.getString("public_vise"));
+        cours.setPrerequis(rs.getString("prerequis"));
+        cours.setNiveau(Niveau.valueOf(rs.getString("niveau")));
+        cours.setDureeHeures(rs.getObject("duree_heures", Integer.class));
         cours.setPrix(rs.getBigDecimal("prix"));
-        cours.setNiveau(rs.getString("niveau"));
-        cours.setCapaciteMax(rs.getInt("capacite_max"));
-        cours.setProfesseurId(rs.getObject("professeur_id", Integer.class));
+        cours.setProfesseurId(rs.getInt("professeur_id"));
         cours.setCategorieId(rs.getObject("categorie_id", Integer.class));
-        
-        Date dateDebut = rs.getDate("date_debut");
-        if (dateDebut != null) {
-            cours.setDateDebut(dateDebut.toLocalDate());
+        cours.setVisible(rs.getBoolean("visible"));
+        cours.setImageCouverture(rs.getString("image_couverture"));
+
+        Date datePublication = rs.getDate("date_publication");
+        if (datePublication != null) {
+            cours.setDatePublication(datePublication.toLocalDate());
         }
-        
-        Date dateFin = rs.getDate("date_fin");
-        if (dateFin != null) {
-            cours.setDateFin(dateFin.toLocalDate());
-        }
-        
-        Time horaireDebut = rs.getTime("horaire_debut");
-        if (horaireDebut != null) {
-            cours.setHoraireDebut(horaireDebut.toLocalTime());
-        }
-        
-        Time horaireFin = rs.getTime("horaire_fin");
-        if (horaireFin != null) {
-            cours.setHoraireFin(horaireFin.toLocalTime());
-        }
-        
-        cours.setJoursSemaine(rs.getString("jours_semaine"));
-        cours.setSalle(rs.getString("salle"));
+
         cours.setActif(rs.getBoolean("actif"));
-        
-        Timestamp dateCreation = rs.getTimestamp("date_creation");
-        if (dateCreation != null) {
-            cours.setDateCreation(dateCreation.toLocalDateTime());
-        }
-        
-        Timestamp dateModification = rs.getTimestamp("date_modification");
-        if (dateModification != null) {
-            cours.setDateModification(dateModification.toLocalDateTime());
-        }
-        
-        // Mapper les objets liés
+        cours.setDateCreation(rs.getTimestamp("date_creation").toLocalDateTime());
+        cours.setDateModification(rs.getTimestamp("date_modification").toLocalDateTime());
+
+        // Mapper le professeur si présent
         String profNom = rs.getString("prof_nom");
         if (profNom != null) {
-            Professeur professeur = new Professeur();
-            professeur.setId(cours.getProfesseurId());
+            User professeur = new User();
+            professeur.setId(rs.getInt("professeur_id"));
             professeur.setNom(profNom);
             professeur.setPrenom(rs.getString("prof_prenom"));
-            professeur.setSpecialite(rs.getString("prof_specialite"));
+            professeur.setEmail(rs.getString("prof_email"));
             cours.setProfesseur(professeur);
         }
-        
+
+        // Mapper la catégorie si présente
         String catNom = rs.getString("cat_nom");
         if (catNom != null) {
             Categorie categorie = new Categorie();
-            categorie.setId(cours.getCategorieId());
+            categorie.setId(rs.getInt("categorie_id"));
             categorie.setNom(catNom);
             categorie.setDescription(rs.getString("cat_description"));
             cours.setCategorie(categorie);
         }
-        
+
         return cours;
     }
 }

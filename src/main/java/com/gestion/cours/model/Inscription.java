@@ -1,56 +1,34 @@
 package com.gestion.cours.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Classe représentant une inscription d'un étudiant à un cours
  */
 public class Inscription {
-    
-    public enum StatutInscription {
-        EN_ATTENTE("En attente"),
-        CONFIRMEE("Confirmée"),
-        ANNULEE("Annulée"),
-        TERMINEE("Terminée");
-        
-        private final String libelle;
-        
-        StatutInscription(String libelle) {
-            this.libelle = libelle;
-        }
-        
-        public String getLibelle() {
-            return libelle;
-        }
-        
-        @Override
-        public String toString() {
-            return libelle;
-        }
+    public enum Statut {
+        EN_ATTENTE, ACCEPTEE, REFUSEE, TERMINEE
     }
-    
+
     private Integer id;
     private Integer etudiantId;
     private Integer coursId;
-    private LocalDate dateInscription;
-    private StatutInscription statut;
-    private BigDecimal noteFinale;
-    private String commentaires;
-    private LocalDateTime dateCreation;
-    private LocalDateTime dateModification;
-    
-    // Objets liés (pour affichage)
-    private Etudiant etudiant;
+    private LocalDateTime dateInscription;
+    private Statut statut;
+    private BigDecimal progresPourcentage;
+    private LocalDateTime derniereActivite;
+
+    // Objets liés pour affichage
+    private User etudiant;
     private Cours cours;
 
     // Constructeur par défaut
     public Inscription() {
-        this.statut = StatutInscription.EN_ATTENTE;
-        this.dateInscription = LocalDate.now();
-        this.dateCreation = LocalDateTime.now();
-        this.dateModification = LocalDateTime.now();
+        this.dateInscription = LocalDateTime.now();
+        this.statut = Statut.EN_ATTENTE;
+        this.progresPourcentage = BigDecimal.ZERO;
     }
 
     // Constructeur avec paramètres essentiels
@@ -85,59 +63,43 @@ public class Inscription {
         this.coursId = coursId;
     }
 
-    public LocalDate getDateInscription() {
+    public LocalDateTime getDateInscription() {
         return dateInscription;
     }
 
-    public void setDateInscription(LocalDate dateInscription) {
+    public void setDateInscription(LocalDateTime dateInscription) {
         this.dateInscription = dateInscription;
     }
 
-    public StatutInscription getStatut() {
+    public Statut getStatut() {
         return statut;
     }
 
-    public void setStatut(StatutInscription statut) {
+    public void setStatut(Statut statut) {
         this.statut = statut;
     }
 
-    public BigDecimal getNoteFinale() {
-        return noteFinale;
+    public BigDecimal getProgresPourcentage() {
+        return progresPourcentage;
     }
 
-    public void setNoteFinale(BigDecimal noteFinale) {
-        this.noteFinale = noteFinale;
+    public void setProgresPourcentage(BigDecimal progresPourcentage) {
+        this.progresPourcentage = progresPourcentage;
     }
 
-    public String getCommentaires() {
-        return commentaires;
+    public LocalDateTime getDerniereActivite() {
+        return derniereActivite;
     }
 
-    public void setCommentaires(String commentaires) {
-        this.commentaires = commentaires;
+    public void setDerniereActivite(LocalDateTime derniereActivite) {
+        this.derniereActivite = derniereActivite;
     }
 
-    public LocalDateTime getDateCreation() {
-        return dateCreation;
-    }
-
-    public void setDateCreation(LocalDateTime dateCreation) {
-        this.dateCreation = dateCreation;
-    }
-
-    public LocalDateTime getDateModification() {
-        return dateModification;
-    }
-
-    public void setDateModification(LocalDateTime dateModification) {
-        this.dateModification = dateModification;
-    }
-
-    public Etudiant getEtudiant() {
+    public User getEtudiant() {
         return etudiant;
     }
 
-    public void setEtudiant(Etudiant etudiant) {
+    public void setEtudiant(User etudiant) {
         this.etudiant = etudiant;
     }
 
@@ -150,35 +112,107 @@ public class Inscription {
     }
 
     // Méthodes utilitaires
-    public boolean isActive() {
-        return statut == StatutInscription.CONFIRMEE || statut == StatutInscription.EN_ATTENTE;
+    public String getDateInscriptionFormatee() {
+        if (dateInscription == null) return "";
+        return dateInscription.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+    }
+
+    public String getDerniereActiviteFormatee() {
+        if (derniereActivite == null) return "Aucune activité";
+        return derniereActivite.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+    }
+
+    public String getStatutLibelle() {
+        switch (statut) {
+            case EN_ATTENTE:
+                return "En attente";
+            case ACCEPTEE:
+                return "Acceptée";
+            case REFUSEE:
+                return "Refusée";
+            case TERMINEE:
+                return "Terminée";
+            default:
+                return "Inconnu";
+        }
+    }
+
+    public boolean isEnAttente() {
+        return statut == Statut.EN_ATTENTE;
+    }
+
+    public boolean isAcceptee() {
+        return statut == Statut.ACCEPTEE;
+    }
+
+    public boolean isRefusee() {
+        return statut == Statut.REFUSEE;
     }
 
     public boolean isTerminee() {
-        return statut == StatutInscription.TERMINEE;
+        return statut == Statut.TERMINEE;
     }
 
-    public boolean isAnnulee() {
-        return statut == StatutInscription.ANNULEE;
+    public boolean isActive() {
+        return isAcceptee() && !isTerminee();
     }
 
-    public String getStatutTexte() {
-        return statut != null ? statut.getLibelle() : "Non défini";
+    public String getProgresFormate() {
+        if (progresPourcentage == null) {
+            return "0%";
+        }
+        return String.format("%.1f%%", progresPourcentage);
     }
 
-    public boolean hasNoteFinale() {
-        return noteFinale != null && noteFinale.compareTo(BigDecimal.ZERO) >= 0;
+    public int getProgresEntier() {
+        if (progresPourcentage == null) {
+            return 0;
+        }
+        return progresPourcentage.intValue();
+    }
+
+    public boolean isProgresComplete() {
+        return progresPourcentage != null && 
+               progresPourcentage.compareTo(new BigDecimal("100")) >= 0;
+    }
+
+    public void ajouterProgres(BigDecimal progressionSupplementaire) {
+        if (progressionSupplementaire == null || progressionSupplementaire.compareTo(BigDecimal.ZERO) <= 0) {
+            return;
+        }
+        
+        if (progresPourcentage == null) {
+            progresPourcentage = BigDecimal.ZERO;
+        }
+        
+        progresPourcentage = progresPourcentage.add(progressionSupplementaire);
+        
+        // S'assurer que le progrès ne dépasse pas 100%
+        if (progresPourcentage.compareTo(new BigDecimal("100")) > 0) {
+            progresPourcentage = new BigDecimal("100");
+        }
+        
+        updateDerniereActivite();
+        
+        // Marquer comme terminé si 100% atteint
+        if (isProgresComplete() && isAcceptee()) {
+            statut = Statut.TERMINEE;
+        }
+    }
+
+    public void updateDerniereActivite() {
+        this.derniereActivite = LocalDateTime.now();
     }
 
     public boolean isValide() {
-        return etudiantId != null && coursId != null && dateInscription != null;
+        return etudiantId != null && coursId != null;
     }
 
     @Override
     public String toString() {
-        String etudiantNom = etudiant != null ? etudiant.getNomComplet() : "ID: " + etudiantId;
-        String coursNom = cours != null ? cours.getTitre() : "ID: " + coursId;
-        return etudiantNom + " - " + coursNom + " (" + getStatutTexte() + ")";
+        String etudiantNom = etudiant != null ? etudiant.getNomComplet() : "Étudiant #" + etudiantId;
+        String coursNom = cours != null ? cours.getTitre() : "Cours #" + coursId;
+        return etudiantNom + " -> " + coursNom + " (" + getStatutLibelle() + ")";
     }
 
     @Override
