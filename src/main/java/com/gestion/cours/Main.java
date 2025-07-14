@@ -1,6 +1,6 @@
 package com.gestion.cours;
 
-import com.gestion.cours.ui.MainFrame;
+import com.gestion.cours.ui.LoginFrame;
 import com.gestion.cours.util.DatabaseConfig;
 
 import javax.swing.*;
@@ -22,9 +22,9 @@ public class Main {
                 // Tester la connexion à la base de données
                 testDatabaseConnection();
                 
-                // Créer et afficher la fenêtre principale
-                MainFrame mainFrame = new MainFrame();
-                mainFrame.setVisible(true);
+                // Créer et afficher l'interface de connexion
+                LoginFrame loginFrame = new LoginFrame();
+                loginFrame.setVisible(true);
                 
             } catch (Exception e) {
                 showStartupError(e);
