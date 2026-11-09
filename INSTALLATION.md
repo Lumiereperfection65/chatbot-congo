@@ -43,7 +43,7 @@ brew install maven
 sudo apt install maven
 ```
 
-#### 1.3 Installer MySQL 8.0+
+#### 1.3 Installer MySQL 8.0+ ou MariaDB 10.6+
 **Windows :**
 ```powershell
 choco install mysql
@@ -149,6 +149,8 @@ SELECT COUNT(*) FROM professeurs;
 2. Vérifier la barre de statut (connexion DB)
 3. Naviguer vers l'onglet "Professeurs"
 4. Vérifier que les données de test apparaissent
+
+Compte de démonstration : `jean.dupont@email.com` ou `thomas.leroy@email.com`, mot de passe `password123`.
 
 ## 🐛 Résolution des problèmes courants
 

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a30">
+  <title>Académie — Gestion de cours</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main id="login-screen" class="login-layout">
+    <section class="login-story">
+      <a class="brand brand-light" href="#">
+        <span class="brand-mark">A</span>
+        <span>académie<span class="brand-dot">.</span></span>
+      </a>
+      <div class="story-copy">
+        <span class="eyebrow">ESPACE DE GESTION</span>
+        <h1>Le savoir<br><em>en mouvement.</em></h1>
+        <p>Un espace unique pour organiser vos cours, accompagner vos étudiants et faire grandir votre communauté.</p>
+      </div>
+      <div class="story-foot"><span class="status-pulse"></span> Votre plateforme d’apprentissage</div>
+      <div class="story-orb orb-one"></div>
+      <div class="story-orb orb-two"></div>
+    </section>
+    <section class="login-panel">
+      <form id="login-form" class="login-card">
+        <span class="eyebrow">BON RETOUR</span>
+        <h2>Connectez-vous</h2>
+        <p class="muted">Entrez vos identifiants pour accéder à votre espace.</p>
+        <label for="login-email">Adresse e-mail</label>
+        <input id="login-email" type="email" autocomplete="username" placeholder="nom@exemple.com" required>
+        <label for="login-password">Mot de passe</label>
+        <input id="login-password" type="password" autocomplete="current-password" placeholder="Votre mot de passe" required>
+        <button class="button button-primary button-wide" type="submit">Ouvrir mon espace <span>→</span></button>
+        <p id="login-error" class="form-error" role="alert"></p>
+        <div class="demo-hint">
+          <strong>Accès de démonstration</strong>
+          <span>jean.dupont@email.com</span>
+          <span>Mot de passe : password123</span>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <div id="app-screen" class="app-layout hidden">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Académie">
+        <span class="brand-mark">A</span>
+        <span>académie<span class="brand-dot">.</span></span>
+      </a>
+      <div class="side-label">ESPACE DE TRAVAIL</div>
+      <nav class="side-nav" aria-label="Navigation principale">
+        <button class="nav-item active" data-page="dashboard"><span class="nav-icon">◫</span>Vue d’ensemble</button>
+        <button class="nav-item" data-page="courses"><span class="nav-icon">▤</span>Mes cours</button>
+        <button class="nav-item" data-page="professors"><span class="nav-icon">♙</span>Professeurs</button>
+        <button class="nav-item" data-page="students"><span class="nav-icon">♧</span>Étudiants</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-card"><span class="help-icon">✳</span><strong>Un espace pour apprendre</strong><span>Gérez votre plateforme en toute simplicité.</span></div>
+        <div class="user-chip">
+          <span id="avatar" class="avatar">JD</span>
+          <span class="user-details"><strong id="user-name">Utilisateur</strong><small id="user-email"></small></span>
+          <button id="logout-button" class="icon-button" title="Se déconnecter" aria-label="Se déconnecter">↗</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Académie</span><b>/</b><strong id="breadcrumb-current">Vue d’ensemble</strong></div>
+        <div class="topbar-right"><span class="live-status"><i></i> Connecté</span><span id="today-label"></span></div>
+      </header>
+      <main class="content">
+        <div id="page-heading" class="page-heading"></div>
+        <div id="page-content"></div>
+      </main>
+      <div id="toast" class="toast" role="status"></div>
+    </section>
+  </div>
+
+  <dialog id="edit-dialog" class="edit-dialog">
+    <form id="edit-form" method="dialog">
+      <div class="dialog-heading">
+        <div><span class="eyebrow">GESTION</span><h2 id="dialog-title">Ajouter</h2></div>
+        <button class="icon-button close-dialog" type="button" aria-label="Fermer">×</button>
+      </div>
+      <div id="dialog-fields" class="dialog-fields"></div>
+      <p id="dialog-error" class="form-error" role="alert"></p>
+      <div class="dialog-actions">
+        <button class="button button-quiet close-dialog" type="button">Annuler</button>
+        <button class="button button-primary" type="submit">Enregistrer <span>→</span></button>
+      </div>
+    </form>
+  </dialog>
+  <script src="./app.js"></script>
+</body>
+</html>

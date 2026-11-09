@@ -19,6 +19,35 @@ CREATE TABLE IF NOT EXISTS users (
     derniere_connexion TIMESTAMP NULL
 );
 
+-- Tables de gestion utilisées par les écrans de l'application
+CREATE TABLE IF NOT EXISTS professeurs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    telephone VARCHAR(20),
+    specialite VARCHAR(150) NOT NULL,
+    date_embauche DATE,
+    salaire DECIMAL(10,2),
+    actif BOOLEAN DEFAULT TRUE,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_modification TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS etudiants (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    telephone VARCHAR(20),
+    date_naissance DATE,
+    adresse TEXT,
+    niveau_etude VARCHAR(50),
+    actif BOOLEAN DEFAULT TRUE,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_modification TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 -- Table des catégories de cours
 CREATE TABLE IF NOT EXISTS categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -39,16 +68,23 @@ CREATE TABLE IF NOT EXISTS cours (
     prerequis TEXT, -- Prérequis pour suivre le cours
     niveau ENUM('DEBUTANT', 'INTERMEDIAIRE', 'AVANCE') NOT NULL,
     duree_heures INT,
+    capacite_max INT DEFAULT 30,
     prix DECIMAL(10,2) DEFAULT 0.00,
     professeur_id INT NOT NULL,
     categorie_id INT,
     visible BOOLEAN DEFAULT FALSE, -- Visibilité progressive du cours
     image_couverture VARCHAR(255), -- Chemin vers l'image de couverture
     date_publication DATE,
+    date_debut DATE,
+    date_fin DATE,
+    horaire_debut TIME,
+    horaire_fin TIME,
+    jours_semaine VARCHAR(150),
+    salle VARCHAR(100),
     actif BOOLEAN DEFAULT TRUE,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     date_modification TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (professeur_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (professeur_id) REFERENCES professeurs(id) ON DELETE CASCADE,
     FOREIGN KEY (categorie_id) REFERENCES categories(id) ON DELETE SET NULL
 );
 
@@ -178,15 +214,27 @@ INSERT INTO categories (nom, description, icone) VALUES
 -- Insertion d'utilisateurs de test (mot de passe: "password123" hashé)
 INSERT INTO users (nom, prenom, email, mot_de_passe, type_utilisateur, telephone) VALUES
 -- Professeurs
-('Dupont', 'Jean', 'jean.dupont@email.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye.Uo0hVvPnj2QyZKTWnQXt9W1CJYEjW6', 'PROFESSEUR', '0123456789'),
-('Martin', 'Marie', 'marie.martin@email.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye.Uo0hVvPnj2QyZKTWnQXt9W1CJYEjW6', 'PROFESSEUR', '0123456790'),
-('Bernard', 'Pierre', 'pierre.bernard@email.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye.Uo0hVvPnj2QyZKTWnQXt9W1CJYEjW6', 'PROFESSEUR', '0123456791'),
-('Durand', 'Sophie', 'sophie.durand@email.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye.Uo0hVvPnj2QyZKTWnQXt9W1CJYEjW6', 'PROFESSEUR', '0123456792'),
+('Dupont', 'Jean', 'jean.dupont@email.com', '$2a$10$Y02LtrXB1CCrX.3jA52.1ODyYipZcTaHcEahJTeLXcsXGMQsNfSx6', 'PROFESSEUR', '0123456789'),
+('Martin', 'Marie', 'marie.martin@email.com', '$2a$10$Y02LtrXB1CCrX.3jA52.1ODyYipZcTaHcEahJTeLXcsXGMQsNfSx6', 'PROFESSEUR', '0123456790'),
+('Bernard', 'Pierre', 'pierre.bernard@email.com', '$2a$10$Y02LtrXB1CCrX.3jA52.1ODyYipZcTaHcEahJTeLXcsXGMQsNfSx6', 'PROFESSEUR', '0123456791'),
+('Durand', 'Sophie', 'sophie.durand@email.com', '$2a$10$Y02LtrXB1CCrX.3jA52.1ODyYipZcTaHcEahJTeLXcsXGMQsNfSx6', 'PROFESSEUR', '0123456792'),
 -- Étudiants
-('Leroy', 'Thomas', 'thomas.leroy@email.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye.Uo0hVvPnj2QyZKTWnQXt9W1CJYEjW6', 'ETUDIANT', '0612345678'),
-('Moreau', 'Emma', 'emma.moreau@email.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye.Uo0hVvPnj2QyZKTWnQXt9W1CJYEjW6', 'ETUDIANT', '0612345679'),
-('Petit', 'Lucas', 'lucas.petit@email.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye.Uo0hVvPnj2QyZKTWnQXt9W1CJYEjW6', 'ETUDIANT', '0612345680'),
-('Roux', 'Léa', 'lea.roux@email.com', '$2a$10$N9qo8uLOickgx2ZMRZoMye.Uo0hVvPnj2QyZKTWnQXt9W1CJYEjW6', 'ETUDIANT', '0612345681');
+('Leroy', 'Thomas', 'thomas.leroy@email.com', '$2a$10$Y02LtrXB1CCrX.3jA52.1ODyYipZcTaHcEahJTeLXcsXGMQsNfSx6', 'ETUDIANT', '0612345678'),
+('Moreau', 'Emma', 'emma.moreau@email.com', '$2a$10$Y02LtrXB1CCrX.3jA52.1ODyYipZcTaHcEahJTeLXcsXGMQsNfSx6', 'ETUDIANT', '0612345679'),
+('Petit', 'Lucas', 'lucas.petit@email.com', '$2a$10$Y02LtrXB1CCrX.3jA52.1ODyYipZcTaHcEahJTeLXcsXGMQsNfSx6', 'ETUDIANT', '0612345680'),
+('Roux', 'Léa', 'lea.roux@email.com', '$2a$10$Y02LtrXB1CCrX.3jA52.1ODyYipZcTaHcEahJTeLXcsXGMQsNfSx6', 'ETUDIANT', '0612345681');
+
+INSERT INTO professeurs (id, nom, prenom, email, telephone, specialite) VALUES
+(1, 'Dupont', 'Jean', 'jean.dupont@email.com', '0123456789', 'Développement Java'),
+(2, 'Martin', 'Marie', 'marie.martin@email.com', '0123456790', 'Data Science'),
+(3, 'Bernard', 'Pierre', 'pierre.bernard@email.com', '0123456791', 'Design UX/UI'),
+(4, 'Durand', 'Sophie', 'sophie.durand@email.com', '0123456792', 'Anglais professionnel');
+
+INSERT INTO etudiants (id, nom, prenom, email, telephone) VALUES
+(5, 'Leroy', 'Thomas', 'thomas.leroy@email.com', '0612345678'),
+(6, 'Moreau', 'Emma', 'emma.moreau@email.com', '0612345679'),
+(7, 'Petit', 'Lucas', 'lucas.petit@email.com', '0612345680'),
+(8, 'Roux', 'Léa', 'lea.roux@email.com', '0612345681');
 
 -- Insertion de cours de test
 INSERT INTO cours (titre, presentation, mots_cles, public_vise, prerequis, niveau, duree_heures, prix, professeur_id, categorie_id, visible, date_publication) VALUES

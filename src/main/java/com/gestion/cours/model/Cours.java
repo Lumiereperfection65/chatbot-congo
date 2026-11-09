@@ -3,6 +3,7 @@ package com.gestion.cours.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,17 +18,25 @@ public class Cours {
     private Integer id;
     private String titre;
     private String presentation; // Description détaillée du cours
+    private String description; // Description courte du cours (compatibilité UI)
     private String motsCles; // Mots clés séparés par des virgules
     private String publicVise; // Description du public ciblé
     private String prerequis; // Prérequis pour suivre le cours
     private Niveau niveau;
     private Integer dureeHeures;
+    private Integer capaciteMax;
     private BigDecimal prix;
     private Integer professeurId;
     private Integer categorieId;
     private boolean visible; // Visibilité progressive du cours
     private String imageCouverture; // Chemin vers l'image de couverture
     private LocalDate datePublication;
+    private LocalDate dateDebut;
+    private LocalDate dateFin;
+    private LocalTime horaireDebut;
+    private LocalTime horaireFin;
+    private String joursSemaine;
+    private String salle;
     private boolean actif;
     private LocalDateTime dateCreation;
     private LocalDateTime dateModification;
@@ -79,6 +88,17 @@ public class Cours {
         this.presentation = presentation;
     }
 
+    public String getDescription() {
+        return description != null ? description : presentation;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+        if (this.presentation == null || this.presentation.isBlank()) {
+            this.presentation = description;
+        }
+    }
+
     public String getMotsCles() {
         return motsCles;
     }
@@ -111,12 +131,46 @@ public class Cours {
         this.niveau = niveau;
     }
 
+    public void setNiveau(String niveau) {
+        if (niveau == null || niveau.isBlank()) {
+            this.niveau = null;
+            return;
+        }
+        String normalized = niveau.trim();
+        switch (normalized.toLowerCase()) {
+            case "debutant":
+            case "débutant":
+                this.niveau = Niveau.DEBUTANT;
+                break;
+            case "intermediaire":
+            case "intermédiaire":
+            case "intermediate":
+                this.niveau = Niveau.INTERMEDIAIRE;
+                break;
+            case "avance":
+            case "avancé":
+            case "advanced":
+                this.niveau = Niveau.AVANCE;
+                break;
+            default:
+                throw new IllegalArgumentException("Niveau de cours inconnu: " + niveau);
+        }
+    }
+
     public Integer getDureeHeures() {
         return dureeHeures;
     }
 
     public void setDureeHeures(Integer dureeHeures) {
         this.dureeHeures = dureeHeures;
+    }
+
+    public Integer getCapaciteMax() {
+        return capaciteMax != null ? capaciteMax : 30;
+    }
+
+    public void setCapaciteMax(Integer capaciteMax) {
+        this.capaciteMax = capaciteMax;
     }
 
     public BigDecimal getPrix() {
@@ -165,6 +219,54 @@ public class Cours {
 
     public void setDatePublication(LocalDate datePublication) {
         this.datePublication = datePublication;
+    }
+
+    public LocalDate getDateDebut() {
+        return dateDebut != null ? dateDebut : datePublication;
+    }
+
+    public void setDateDebut(LocalDate dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public LocalDate getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(LocalDate dateFin) {
+        this.dateFin = dateFin;
+    }
+
+    public LocalTime getHoraireDebut() {
+        return horaireDebut;
+    }
+
+    public void setHoraireDebut(LocalTime horaireDebut) {
+        this.horaireDebut = horaireDebut;
+    }
+
+    public LocalTime getHoraireFin() {
+        return horaireFin;
+    }
+
+    public void setHoraireFin(LocalTime horaireFin) {
+        this.horaireFin = horaireFin;
+    }
+
+    public String getJoursSemaine() {
+        return joursSemaine;
+    }
+
+    public void setJoursSemaine(String joursSemaine) {
+        this.joursSemaine = joursSemaine;
+    }
+
+    public String getSalle() {
+        return salle;
+    }
+
+    public void setSalle(String salle) {
+        this.salle = salle;
     }
 
     public boolean isActif() {
@@ -236,6 +338,22 @@ public class Cours {
     public boolean isEnPreparation() {
         return !visible || datePublication == null || 
                datePublication.isAfter(LocalDate.now());
+    }
+
+    public boolean isEnCours() {
+        LocalDate debut = getDateDebut();
+        return actif && visible && debut != null &&
+               !debut.isAfter(LocalDate.now()) &&
+               (dateFin == null || !dateFin.isBefore(LocalDate.now()));
+    }
+
+    public boolean isAVenir() {
+        LocalDate debut = getDateDebut();
+        return actif && visible && debut != null && debut.isAfter(LocalDate.now());
+    }
+
+    public boolean isTermine() {
+        return !actif || (dateFin != null && dateFin.isBefore(LocalDate.now()));
     }
 
     public String getStatutCours() {

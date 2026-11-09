@@ -15,16 +15,54 @@ import java.util.List;
 /**
  * DAO pour la gestion des cours
  */
-public class CoursDAO extends BaseDAO {
+public class CoursDAO extends BaseDAO<Cours> {
     private static final Logger logger = LoggerFactory.getLogger(CoursDAO.class);
+
+    @Override
+    public Cours findById(Integer id) {
+        return trouverParId(id);
+    }
+
+    @Override
+    public List<Cours> findAll() {
+        return listerTous();
+    }
+
+    @Override
+    public Cours save(Cours entity) {
+        return entity == null ? null : creer(entity);
+    }
+
+    @Override
+    public Cours update(Cours entity) {
+        if (entity == null || entity.getId() == null) {
+            return null;
+        }
+        return mettreAJour(entity) ? entity : null;
+    }
+
+    @Override
+    public boolean delete(Integer id) {
+        return id != null && supprimer(id);
+    }
+
+    @Override
+    protected Cours mapResultSetToEntity(ResultSet rs) throws SQLException {
+        return mapResultSetToCours(rs);
+    }
 
     /**
      * Créer un nouveau cours
      */
     public Cours creer(Cours cours) {
+        if (cours == null || !cours.isValide()) {
+            logger.warn("Tentative de création d'un cours invalide");
+            return null;
+        }
         String sql = "INSERT INTO cours (titre, presentation, mots_cles, public_vise, prerequis, niveau, " +
-                     "duree_heures, prix, professeur_id, categorie_id, visible, image_couverture, date_publication) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     "duree_heures, capacite_max, prix, professeur_id, categorie_id, visible, image_couverture, " +
+                     "date_publication, date_debut, date_fin, horaire_debut, horaire_fin, jours_semaine, salle) " +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -36,12 +74,19 @@ public class CoursDAO extends BaseDAO {
             stmt.setString(5, cours.getPrerequis());
             stmt.setString(6, cours.getNiveau().name());
             stmt.setObject(7, cours.getDureeHeures());
-            stmt.setBigDecimal(8, cours.getPrix());
-            stmt.setInt(9, cours.getProfesseurId());
-            stmt.setObject(10, cours.getCategorieId());
-            stmt.setBoolean(11, cours.isVisible());
-            stmt.setString(12, cours.getImageCouverture());
-            stmt.setDate(13, cours.getDatePublication() != null ? Date.valueOf(cours.getDatePublication()) : null);
+            stmt.setObject(8, cours.getCapaciteMax());
+            stmt.setBigDecimal(9, cours.getPrix());
+            stmt.setInt(10, cours.getProfesseurId());
+            stmt.setObject(11, cours.getCategorieId());
+            stmt.setBoolean(12, cours.isVisible());
+            stmt.setString(13, cours.getImageCouverture());
+            stmt.setDate(14, cours.getDatePublication() != null ? Date.valueOf(cours.getDatePublication()) : null);
+            stmt.setDate(15, cours.getDateDebut() != null ? Date.valueOf(cours.getDateDebut()) : null);
+            stmt.setDate(16, cours.getDateFin() != null ? Date.valueOf(cours.getDateFin()) : null);
+            stmt.setTime(17, cours.getHoraireDebut() != null ? Time.valueOf(cours.getHoraireDebut()) : null);
+            stmt.setTime(18, cours.getHoraireFin() != null ? Time.valueOf(cours.getHoraireFin()) : null);
+            stmt.setString(19, cours.getJoursSemaine());
+            stmt.setString(20, cours.getSalle());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -63,10 +108,10 @@ public class CoursDAO extends BaseDAO {
      * Trouver un cours par ID
      */
     public Cours trouverParId(Integer id) {
-        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+        String sql = "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.email as prof_email, " +
                      "cat.nom as cat_nom, cat.description as cat_description " +
                      "FROM cours c " +
-                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
                      "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
                      "WHERE c.id = ? AND c.actif = TRUE";
 
@@ -90,10 +135,10 @@ public class CoursDAO extends BaseDAO {
      * Lister tous les cours
      */
     public List<Cours> listerTous() {
-        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+        String sql = "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.email as prof_email, " +
                      "cat.nom as cat_nom, cat.description as cat_description " +
                      "FROM cours c " +
-                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
                      "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
                      "WHERE c.actif = TRUE ORDER BY c.date_creation DESC";
 
@@ -104,10 +149,10 @@ public class CoursDAO extends BaseDAO {
      * Lister les cours visibles (publiés)
      */
     public List<Cours> listerCoursVisibles() {
-        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+        String sql = "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.email as prof_email, " +
                      "cat.nom as cat_nom, cat.description as cat_description " +
                      "FROM cours c " +
-                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
                      "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
                      "WHERE c.actif = TRUE AND c.visible = TRUE " +
                      "AND (c.date_publication IS NULL OR c.date_publication <= CURRENT_DATE) " +
@@ -120,10 +165,10 @@ public class CoursDAO extends BaseDAO {
      * Lister les cours par professeur
      */
     public List<Cours> listerParProfesseur(Integer professeurId) {
-        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+        String sql = "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.email as prof_email, " +
                      "cat.nom as cat_nom, cat.description as cat_description " +
                      "FROM cours c " +
-                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
                      "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
                      "WHERE c.professeur_id = ? AND c.actif = TRUE " +
                      "ORDER BY c.date_creation DESC";
@@ -144,10 +189,10 @@ public class CoursDAO extends BaseDAO {
      * Lister les cours par catégorie
      */
     public List<Cours> listerParCategorie(Integer categorieId) {
-        String sql = "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+        String sql = "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.email as prof_email, " +
                      "cat.nom as cat_nom, cat.description as cat_description " +
                      "FROM cours c " +
-                     "LEFT JOIN users u ON c.professeur_id = u.id " +
+                     "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
                      "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
                      "WHERE c.categorie_id = ? AND c.actif = TRUE AND c.visible = TRUE " +
                      "ORDER BY c.date_creation DESC";
@@ -169,10 +214,10 @@ public class CoursDAO extends BaseDAO {
      */
     public List<Cours> rechercher(String motsCles, Niveau niveau, Integer categorieId, boolean gratuitSeulement) {
         StringBuilder sql = new StringBuilder(
-            "SELECT c.*, u.nom as prof_nom, u.prenom as prof_prenom, u.email as prof_email, " +
+            "SELECT c.*, p.nom as prof_nom, p.prenom as prof_prenom, p.email as prof_email, " +
             "cat.nom as cat_nom, cat.description as cat_description " +
             "FROM cours c " +
-            "LEFT JOIN users u ON c.professeur_id = u.id " +
+            "LEFT JOIN professeurs p ON c.professeur_id = p.id " +
             "LEFT JOIN categories cat ON c.categorie_id = cat.id " +
             "WHERE c.actif = TRUE AND c.visible = TRUE "
         );
@@ -222,10 +267,15 @@ public class CoursDAO extends BaseDAO {
      * Mettre à jour un cours
      */
     public boolean mettreAJour(Cours cours) {
+        if (cours == null || !cours.isValide()) {
+            logger.warn("Tentative de mise à jour d'un cours invalide");
+            return false;
+        }
         String sql = "UPDATE cours SET titre = ?, presentation = ?, mots_cles = ?, public_vise = ?, " +
-                     "prerequis = ?, niveau = ?, duree_heures = ?, prix = ?, categorie_id = ?, " +
-                     "visible = ?, image_couverture = ?, date_publication = ?, date_modification = CURRENT_TIMESTAMP " +
-                     "WHERE id = ?";
+                     "prerequis = ?, niveau = ?, duree_heures = ?, capacite_max = ?, prix = ?, professeur_id = ?, " +
+                     "categorie_id = ?, visible = ?, image_couverture = ?, date_publication = ?, date_debut = ?, " +
+                     "date_fin = ?, horaire_debut = ?, horaire_fin = ?, jours_semaine = ?, salle = ?, actif = ?, " +
+                     "date_modification = CURRENT_TIMESTAMP WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -237,12 +287,21 @@ public class CoursDAO extends BaseDAO {
             stmt.setString(5, cours.getPrerequis());
             stmt.setString(6, cours.getNiveau().name());
             stmt.setObject(7, cours.getDureeHeures());
-            stmt.setBigDecimal(8, cours.getPrix());
-            stmt.setObject(9, cours.getCategorieId());
-            stmt.setBoolean(10, cours.isVisible());
-            stmt.setString(11, cours.getImageCouverture());
-            stmt.setDate(12, cours.getDatePublication() != null ? Date.valueOf(cours.getDatePublication()) : null);
-            stmt.setInt(13, cours.getId());
+            stmt.setObject(8, cours.getCapaciteMax());
+            stmt.setBigDecimal(9, cours.getPrix());
+            stmt.setInt(10, cours.getProfesseurId());
+            stmt.setObject(11, cours.getCategorieId());
+            stmt.setBoolean(12, cours.isVisible());
+            stmt.setString(13, cours.getImageCouverture());
+            stmt.setDate(14, cours.getDatePublication() != null ? Date.valueOf(cours.getDatePublication()) : null);
+            stmt.setDate(15, cours.getDateDebut() != null ? Date.valueOf(cours.getDateDebut()) : null);
+            stmt.setDate(16, cours.getDateFin() != null ? Date.valueOf(cours.getDateFin()) : null);
+            stmt.setTime(17, cours.getHoraireDebut() != null ? Time.valueOf(cours.getHoraireDebut()) : null);
+            stmt.setTime(18, cours.getHoraireFin() != null ? Time.valueOf(cours.getHoraireFin()) : null);
+            stmt.setString(19, cours.getJoursSemaine());
+            stmt.setString(20, cours.getSalle());
+            stmt.setBoolean(21, cours.isActif());
+            stmt.setInt(22, cours.getId());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -369,6 +428,7 @@ public class CoursDAO extends BaseDAO {
         cours.setPrerequis(rs.getString("prerequis"));
         cours.setNiveau(Niveau.valueOf(rs.getString("niveau")));
         cours.setDureeHeures(rs.getObject("duree_heures", Integer.class));
+        cours.setCapaciteMax(rs.getObject("capacite_max", Integer.class));
         cours.setPrix(rs.getBigDecimal("prix"));
         cours.setProfesseurId(rs.getInt("professeur_id"));
         cours.setCategorieId(rs.getObject("categorie_id", Integer.class));
@@ -379,6 +439,25 @@ public class CoursDAO extends BaseDAO {
         if (datePublication != null) {
             cours.setDatePublication(datePublication.toLocalDate());
         }
+
+        Date dateDebut = rs.getDate("date_debut");
+        if (dateDebut != null) {
+            cours.setDateDebut(dateDebut.toLocalDate());
+        }
+        Date dateFin = rs.getDate("date_fin");
+        if (dateFin != null) {
+            cours.setDateFin(dateFin.toLocalDate());
+        }
+        Time horaireDebut = rs.getTime("horaire_debut");
+        if (horaireDebut != null) {
+            cours.setHoraireDebut(horaireDebut.toLocalTime());
+        }
+        Time horaireFin = rs.getTime("horaire_fin");
+        if (horaireFin != null) {
+            cours.setHoraireFin(horaireFin.toLocalTime());
+        }
+        cours.setJoursSemaine(rs.getString("jours_semaine"));
+        cours.setSalle(rs.getString("salle"));
 
         cours.setActif(rs.getBoolean("actif"));
         cours.setDateCreation(rs.getTimestamp("date_creation").toLocalDateTime());

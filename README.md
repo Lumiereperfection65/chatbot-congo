@@ -22,14 +22,14 @@ Application complète de gestion de cours développée en Java avec interface gr
 
 - **Java 11+** - Langage principal
 - **Swing + FlatLaf** - Interface graphique moderne
-- **MySQL 8.0+** - Base de données
+- **MySQL 8.0+ ou MariaDB 10.6+** - Base de données
 - **Maven** - Gestion des dépendances
 - **SLF4J + Logback** - Logging
 
 ## 📋 Prérequis
 
 1. **Java 11 ou supérieur**
-2. **MySQL 8.0 ou supérieur**
+2. **MySQL 8.0 ou MariaDB 10.6 ou supérieur**
 3. **Maven 3.6+**
 
 ## 🚀 Installation et Configuration
@@ -102,8 +102,10 @@ java -jar target/gestion-cours-app-1.0.0-jar-with-dependencies.jar
 ### Données de test incluses :
 - 4 professeurs exemple
 - 4 étudiants exemple
-- 5 catégories de cours
+- 6 catégories de cours
 - 4 cours configurés
+
+Comptes de démonstration : `jean.dupont@email.com` ou `thomas.leroy@email.com`, mot de passe `password123`.
 
 ## 🎮 Utilisation
 

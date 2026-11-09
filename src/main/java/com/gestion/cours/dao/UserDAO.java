@@ -15,8 +15,53 @@ import java.util.List;
 /**
  * DAO pour la gestion des utilisateurs (professeurs et étudiants)
  */
-public class UserDAO extends BaseDAO {
+public class UserDAO extends BaseDAO<User> {
     private static final Logger logger = LoggerFactory.getLogger(UserDAO.class);
+
+    @Override
+    public User findById(Integer id) {
+        return trouverParId(id);
+    }
+
+    @Override
+    public List<User> findAll() {
+        String sql = "SELECT * FROM users ORDER BY nom, prenom";
+        List<User> users = new ArrayList<>();
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                users.add(mapResultSetToEntity(rs));
+            }
+        } catch (SQLException e) {
+            logger.error("Erreur lors de la récupération de tous les utilisateurs", e);
+        }
+        return users;
+    }
+
+    @Override
+    public User save(User entity) {
+        return entity == null ? null : creer(entity);
+    }
+
+    @Override
+    public User update(User entity) {
+        if (entity == null || entity.getId() == null) {
+            return null;
+        }
+        return mettreAJour(entity) ? entity : null;
+    }
+
+    @Override
+    public boolean delete(Integer id) {
+        return id != null && desactiver(id);
+    }
+
+    @Override
+    protected User mapResultSetToEntity(ResultSet rs) throws SQLException {
+        return mapResultSetToUser(rs);
+    }
 
     /**
      * Authentifie un utilisateur
